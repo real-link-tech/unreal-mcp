@@ -52,7 +52,6 @@ const connectWithRetry = async (maxRetries: number = 3, retryDelay: number = 200
 				remoteExecution.stop()
 				process.exit(1)
 			}
-		}
 	}
 }
 
@@ -83,12 +82,13 @@ server.tool(
 		return {
 			content: [
 				{
-					type: "text",
-					text: `Unreal Engine path set to ${path}`,
+				type: "text",
+				text: `Unreal Engine path set to ${path}`,
 				},
 			],
 		}
 	},
+)
 )
 
 server.tool(
@@ -103,12 +103,13 @@ server.tool(
 		return {
 			content: [
 				{
-					type: "text",
-					text: `Project path set to ${path}`,
+				type: "text",
+				text: `Project path set to ${path}`,
 				},
 			],
 		}
 	},
+)
 )
 
 server.tool("get_unreal_engine_path", "Get the current Unreal Engine path", async () => {
@@ -154,6 +155,7 @@ server.tool(
 		}
 	},
 )
+)
 
 server.tool(
 	"editor_list_assets",
@@ -169,6 +171,7 @@ server.tool(
 			],
 		}
 	},
+)
 )
 
 server.tool(
@@ -189,10 +192,11 @@ server.tool(
 		}
 	},
 )
+)
 
 server.tool(
 	"editor_get_asset_info",
-	"Get information about an asset, including LOD levels for StaticMesh and SkeletalMesh assets\n\nExample output: [{'name': 'SM_Cube', 'is_valid': True, 'is_u_asset': True, 'is_asset_loaded': True, 'class': 'StaticMesh', 'path': '/Game/Meshes/SM_Cube', 'package': 'SM_Cube', 'package_path': '/Game/Meshes/SM_Cube', 'lod_levels': [{'lod_index': 0, 'num_vertices': 24, 'num_triangles': 12}, {'lod_index': 1, 'num_vertices': 16, 'num_triangles': 8}]}]\n\nReturns asset metadata with LOD information for mesh assets.",
+	"Get information about an asset, including LOD levels for StaticMesh and SkeletalMesh assets\n\nExample output: [{'name': 'SM_Cube', 'is_valid': True, 'is_u_asset': True, 'is_asset_loaded': True, 'class': 'StaticMesh', 'path': '/Game/Meshes/SM_Cube', 'package': 'SM_Cube', 'package_path': '/Game/Meshes/SM_Cube', 'lod_levels': [{'lod_index': 0, 'num_vertices': 24, 'num_triangles': 12}, {'lod_index': 1, 'num_vertices': 16, 'num_triangles': 8}]}\n\nReturns asset metadata with LOD information for mesh assets.",
 	{ asset_path: z.string() },
 	async ({ asset_path }) => {
 		const result = await tryRunCommand(editorTools.UEGetAssetInfo(asset_path))
@@ -205,6 +209,7 @@ server.tool(
 			],
 		}
 	},
+)
 )
 
 server.tool(
@@ -224,6 +229,7 @@ server.tool(
 		}
 	},
 )
+)
 
 server.tool(
 	"editor_console_command",
@@ -240,6 +246,7 @@ server.tool(
 			],
 		}
 	},
+)
 )
 
 server.tool(
@@ -258,6 +265,7 @@ server.tool(
 		}
 	},
 )
+)
 
 server.tool(
 	"editor_get_map_info",
@@ -274,6 +282,7 @@ server.tool(
 			],
 		}
 	},
+)
 )
 
 server.tool(
@@ -295,6 +304,7 @@ server.tool(
 		}
 	},
 )
+)
 
 server.tool(
 	"editor_get_world_outliner",
@@ -311,6 +321,7 @@ server.tool(
 			],
 		}
 	},
+)
 )
 
 server.tool(
@@ -330,6 +341,7 @@ server.tool(
 			],
 		}
 	},
+)
 )
 
 server.tool(
@@ -366,7 +378,7 @@ server.tool(
 			.record(z.any())
 			.optional()
 			.describe(
-				'Additional actor properties. For StaticMeshActor: use \'StaticMesh\' for mesh path, \'Material\' for single material path, or \'Materials\' for array of material paths. Example: {"StaticMesh": "/Game/Meshes/Cube", "Material": "/Game/Materials/M_Basic"}',
+				'Additional actor properties. For StaticMeshActor: use 'StaticMesh' for mesh path, 'Material' for single material path, or 'Materials' for array of material paths. Example: {"StaticMesh": "/Game/Meshes/Cube", "Material": "/Game/Materials/M_Basic"}',
 			),
 	},
 	async ({ object_class, object_name, location, rotation, scale, properties }) => {
@@ -382,6 +394,7 @@ server.tool(
 			],
 		}
 	},
+)
 )
 
 server.tool(
@@ -417,7 +430,7 @@ server.tool(
 			.record(z.any())
 			.optional()
 			.describe(
-				'Additional actor properties to update. For StaticMeshActor: use \'StaticMesh\' for mesh path, \'Material\' for single material path, or \'Materials\' for array of material paths. Example: {"StaticMesh": "/Game/Meshes/Cube", "Material": "/Game/Materials/M_Basic"}',
+				'Additional actor properties to update. For StaticMeshActor: use 'StaticMesh' for mesh path, 'Material' for single material path, or 'Materials' for array of material paths. Example: {"StaticMesh": "/Game/Meshes/Cube", "Material": "/Game/Materials/M_Basic"}',
 			),
 		new_name: z.string().optional().describe("New name/label for the actor"),
 	},
@@ -434,6 +447,7 @@ server.tool(
 			],
 		}
 	},
+)
 )
 
 server.tool(
@@ -453,6 +467,7 @@ server.tool(
 			],
 		}
 	},
+)
 )
 
 server.tool(
@@ -491,6 +506,7 @@ server.tool(
 		}
 	},
 )
+)
 
 server.tool(
 	"editor_move_camera",
@@ -523,25 +539,27 @@ server.tool(
 		}
 	},
 )
+)
 
 server.tool(
 	"editor_import_ui_texture",
-	"Import a PNG file from the given path as an asset and set its Texture Group to UI.\n\nExample output: {\"success\": true, \"asset_path\": \"/Game/UI/MyIcon\", \"texture_group_set\": true}\n\nReturns JSON with success, asset_path, and texture_group_set.",
+	"Import a PNG file from the given path as an asset and set its Texture Group to UI.\n\nExample output: {\"success\": true, \"asset_path\": \"/Game/Textures/UI/MyIcon\", \"texture_group_set\": true}\n\nReturns JSON with success, asset_path, and texture_group_set.",
 	{
 		file_path: z.string().describe("Full path to the PNG file (e.g. C:/Project/icon.png or /path/to/image.png)"),
 		destination_path: z
 			.string()
 			.optional()
-			.describe("Content destination path (e.g. /Game/UI or Game/UI/Textures). Default: /Game/UI"),
+			.describe("Content destination path (e.g. /Game/Textures/UI or Game/UI/Textures). Default: /Game/Textures/UI"),
 	},
 	async ({ file_path, destination_path }) => {
 		const result = await tryRunCommand(
-			editorTools.UEImportUITexture(file_path, destination_path || "/Game/UI"),
+			editorTools.UEImportUITexture(file_path, destination_path || "/Game/Textures/UI"),
 		)
 		return {
 			content: [{ type: "text", text: result }],
 		}
 	},
+)
 )
 
 server.resource("docs", "docs://unreal_python", async () => {

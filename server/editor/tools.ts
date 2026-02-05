@@ -86,3 +86,9 @@ export const UEMoveCamera = (
 		rotation: JSON.stringify(rotation),
 	})
 }
+
+export const UEImportUITexture = (file_path: string, destination_path: string) =>
+	Template(read("./scripts/ue_import_ui_texture.py"), {
+		file_path: file_path.replace(/\\/g, "/"),
+		destination_path: destination_path || "/Game/Textures/UI",
+	})

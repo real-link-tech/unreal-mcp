@@ -99,6 +99,7 @@ If you get an error similar to `MCP Unreal: Unexpected token 'C', Connection...`
 | `editor_delete_object` | Delete an object/actor from the world |
 | `editor_take_screenshot` | Take a screenshot of the Unreal Editor |
 | `editor_move_camera` | Move the viewport camera to a specific location and rotation for positioning screenshots |
+| `editor_import_ui_texture` | Import a PNG file as an asset and set its Texture Group to UI |
 
 ## 🤝 Contributing
 

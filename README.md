@@ -57,7 +57,7 @@ It can support the full [Unreal Engine Python API](https://dev.epicgames.com/doc
       "command": "npx",
       "args": [
         "-y",
-        "@runreal/unreal-mcp"
+        "@real-link-tech/unreal-mcp"
       ]
     }
   }
@@ -104,9 +104,5 @@ If you get an error similar to `MCP Unreal: Unexpected token 'C', Connection...`
 ## 🤝 Contributing
 
 Please feel free to open issues or pull requests. Contributions are welcome, especially new tools/commands.
-
-<a href="https://glama.ai/mcp/servers/@runreal/unreal-mcp">
-  <img width="380" height="200" src="https://glama.ai/mcp/servers/@runreal/unreal-mcp/badge" />
-</a>
 
 ### License MIT

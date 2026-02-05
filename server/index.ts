@@ -524,6 +524,26 @@ server.tool(
 	},
 )
 
+server.tool(
+	"editor_import_ui_texture",
+	"Import a PNG file from the given path as an asset and set its Texture Group to UI.\n\nExample output: {\"success\": true, \"asset_path\": \"/Game/UI/MyIcon\", \"texture_group_set\": true}\n\nReturns JSON with success, asset_path, and texture_group_set.",
+	{
+		file_path: z.string().describe("Full path to the PNG file (e.g. C:/Project/icon.png or /path/to/image.png)"),
+		destination_path: z
+			.string()
+			.optional()
+			.describe("Content destination path (e.g. /Game/UI or Game/UI/Textures). Default: /Game/UI"),
+	},
+	async ({ file_path, destination_path }) => {
+		const result = await tryRunCommand(
+			editorTools.UEImportUITexture(file_path, destination_path || "/Game/UI"),
+		)
+		return {
+			content: [{ type: "text", text: result }],
+		}
+	},
+)
+
 server.resource("docs", "docs://unreal_python", async () => {
 	return {
 		contents: [

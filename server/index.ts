@@ -40,18 +40,22 @@ const connectWithRetry = async (maxRetries: number = 3, retryDelay: number = 200
 
 			return
 		} catch (error) {
-			console.log(`Connection attempt ${attempt} failed:`, error)
+			console.error(`Connection attempt ${attempt} failed:`, error)
 
 			if (attempt < maxRetries) {
-				console.log(`Retrying in ${retryDelay}ms...`)
+				console.error(`Retrying in ${retryDelay}ms...`)
 				await new Promise((resolve) => setTimeout(resolve, retryDelay))
 				// Exponential backoff
 				retryDelay = Math.min(retryDelay * 1.5, 10000)
 			} else {
-				console.log("Unable to connect to your Unreal Engine Editor after multiple attempts")
+				// Do NOT exit: keep MCP server running so Cursor can list tools.
+				// Tools that need Unreal will fail at call time with a clear error.
+				console.error(
+					"Unable to connect to Unreal Engine Editor after multiple attempts. Tools will be listed but editor tools will fail until Unreal is running.",
+				)
 				remoteExecution.stop()
-				process.exit(1)
 			}
+		}
 	}
 }
 
@@ -89,7 +93,6 @@ server.tool(
 		}
 	},
 )
-)
 
 server.tool(
 	"set_unreal_project_path",
@@ -109,7 +112,6 @@ server.tool(
 			],
 		}
 	},
-)
 )
 
 server.tool("get_unreal_engine_path", "Get the current Unreal Engine path", async () => {
@@ -155,7 +157,6 @@ server.tool(
 		}
 	},
 )
-)
 
 server.tool(
 	"editor_list_assets",
@@ -171,7 +172,6 @@ server.tool(
 			],
 		}
 	},
-)
 )
 
 server.tool(
@@ -192,7 +192,6 @@ server.tool(
 		}
 	},
 )
-)
 
 server.tool(
 	"editor_get_asset_info",
@@ -209,7 +208,6 @@ server.tool(
 			],
 		}
 	},
-)
 )
 
 server.tool(
@@ -229,7 +227,6 @@ server.tool(
 		}
 	},
 )
-)
 
 server.tool(
 	"editor_console_command",
@@ -246,7 +243,6 @@ server.tool(
 			],
 		}
 	},
-)
 )
 
 server.tool(
@@ -265,7 +261,6 @@ server.tool(
 		}
 	},
 )
-)
 
 server.tool(
 	"editor_get_map_info",
@@ -282,7 +277,6 @@ server.tool(
 			],
 		}
 	},
-)
 )
 
 server.tool(
@@ -304,7 +298,6 @@ server.tool(
 		}
 	},
 )
-)
 
 server.tool(
 	"editor_get_world_outliner",
@@ -321,7 +314,6 @@ server.tool(
 			],
 		}
 	},
-)
 )
 
 server.tool(
@@ -341,7 +333,6 @@ server.tool(
 			],
 		}
 	},
-)
 )
 
 server.tool(
@@ -378,7 +369,7 @@ server.tool(
 			.record(z.any())
 			.optional()
 			.describe(
-				'Additional actor properties. For StaticMeshActor: use 'StaticMesh' for mesh path, 'Material' for single material path, or 'Materials' for array of material paths. Example: {"StaticMesh": "/Game/Meshes/Cube", "Material": "/Game/Materials/M_Basic"}',
+				"Additional actor properties. For StaticMeshActor: use 'StaticMesh' for mesh path, 'Material' for single material path, or 'Materials' for array of material paths. Example: {\"StaticMesh\": \"/Game/Meshes/Cube\", \"Material\": \"/Game/Materials/M_Basic\"}",
 			),
 	},
 	async ({ object_class, object_name, location, rotation, scale, properties }) => {
@@ -394,7 +385,6 @@ server.tool(
 			],
 		}
 	},
-)
 )
 
 server.tool(
@@ -430,7 +420,7 @@ server.tool(
 			.record(z.any())
 			.optional()
 			.describe(
-				'Additional actor properties to update. For StaticMeshActor: use 'StaticMesh' for mesh path, 'Material' for single material path, or 'Materials' for array of material paths. Example: {"StaticMesh": "/Game/Meshes/Cube", "Material": "/Game/Materials/M_Basic"}',
+				"Additional actor properties to update. For StaticMeshActor: use 'StaticMesh' for mesh path, 'Material' for single material path, or 'Materials' for array of material paths. Example: {\"StaticMesh\": \"/Game/Meshes/Cube\", \"Material\": \"/Game/Materials/M_Basic\"}",
 			),
 		new_name: z.string().optional().describe("New name/label for the actor"),
 	},
@@ -447,7 +437,6 @@ server.tool(
 			],
 		}
 	},
-)
 )
 
 server.tool(
@@ -467,7 +456,6 @@ server.tool(
 			],
 		}
 	},
-)
 )
 
 server.tool(
@@ -506,7 +494,6 @@ server.tool(
 		}
 	},
 )
-)
 
 server.tool(
 	"editor_move_camera",
@@ -539,7 +526,6 @@ server.tool(
 		}
 	},
 )
-)
 
 server.tool(
 	"editor_import_ui_texture",
@@ -559,7 +545,6 @@ server.tool(
 			content: [{ type: "text", text: result }],
 		}
 	},
-)
 )
 
 server.resource("docs", "docs://unreal_python", async () => {
